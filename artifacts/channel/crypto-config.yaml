@@ -1,0 +1,68 @@
+# --------------------------------------------------------------------------------------------------------------------------
+#   THIS .YAML FILE MEANS TO DEFINE+CREATE IDENTIFICATION FOR ORGs AND SOME BASIC COMPONENTS OF THEM AT THE INITIAL START.
+#   SINCE AT THE INITIAL STEP OF CREATING THE COMPONENTS AND SERVICES, WE DON'T HAVE THE CAs.
+#   THEREFORE, WE USE CRYPTOGEN. 
+#   REMEMBER, THIS FILE IS USED ONLY FOR CONSTRUCTING THE VERY FIRST FUNDAMENTAL THINGS, SO WE NEED TO PRE-CONSTRUCT THEM FIRST
+# ---------------------------------------------------------------------------------------------------------------------------
+
+OrdererOrgs:
+  # ---------------------------------------------------------------------------
+  # Orderer
+  # ---------------------------------------------------------------------------
+  - Name: Orderer
+    Domain: example.com
+    EnableNodeOUs: true # Use Organizational Units
+
+    # ---------------------------------------------------------------------------
+    # "Specs" - See PeerOrgs below for complete description
+    # This lists the number of nodes of Orderer Organization
+    # ---------------------------------------------------------------------------
+    Specs:
+    # orderer nodes
+      - Hostname: orderer
+        SANS:
+            - "localhost"
+            - "127.0.0.1"
+      - Hostname: orderer2
+        SANS:
+          - "localhost"
+          - "127.0.0.1"
+      - Hostname: orderer3
+        SANS:
+            - "localhost"
+            - "127.0.0.1"
+
+# ---------------------------------------------------------------------------
+# "PeerOrgs" - Definition of organizations managing peer nodes
+# ---------------------------------------------------------------------------
+PeerOrgs:
+  # ---------------------------------------------------------------------------
+  # Org1
+  # ---------------------------------------------------------------------------
+  - Name: Org1
+    Domain: org1.example.com
+    EnableNodeOUs: true
+
+    Template:
+      Count: 1 # The number of peer nodes in organization (org1)
+      # Start: 5
+      # Hostname: {{.Prefix}}{{.Index}} # default
+      SANS:
+        - "localhost"
+
+    Users:
+      Count: 1
+
+  - Name: Org2
+    Domain: org2.example.com
+    EnableNodeOUs: true
+
+    Template:
+      Count: 1
+      # Start: 5
+      # Hostname: {{.Prefix}}{{.Index}} # default
+      SANS:
+        - "localhost"
+
+    Users:
+      Count: 1
